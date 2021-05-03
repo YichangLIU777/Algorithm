@@ -1,0 +1,20 @@
+# gradient要是一个函数, 注意，这个函数是个原函数的导数
+# 由于gradient_descent的下降与最初的选点有关，所以要有start variable
+# n_iter是迭代的次数
+# tolerance是保证最后两次的值相差的数量，tolerance越小说明越真实
+
+import numpy as np
+
+def gradient_descent(gradient, start, learn_rate, n_iter, tolerance):
+    vector = start
+    for _ in range(n_iter):
+        diff = -learn_rate * gradient(vector)
+        if np.all(np.abs(diff) <= tolerance):
+            break
+        vector += diff
+    return vector
+
+print(gradient_descent(gradient=lambda v: 2 * v, start=10.0, learn_rate=0.2, n_iter = 50, tolerance = 1e-06))
+
+# 这个例子中的 2 * v，原函数其实是 v**2
+# learn_rate取太小可能找的慢，learn_rate取太大可能会diverse，多取几次比较靠谱
