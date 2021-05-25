@@ -1,0 +1,33 @@
+import numpy as np
+from sklearn.cluster import KMeans
+
+def kmeans_cluster(list_1, cycle_number, center_number):
+    data = np.mat(list_1)
+    list_total = []
+    inertia_total = []
+    for i in range(cycle_number):
+        estimator = KMeans(n_clusters=center_number)       #构造聚类器
+        estimator.fit(data)                    #聚类
+        label_pred = estimator.labels_         #获取聚类标签
+        centroids = estimator.cluster_centers_ #获取聚类中心
+        inertia = estimator.inertia_           #获取聚类准则的总和 这个数越小越好
+        center = centroids.tolist()
+        list_center = []
+        for m in center:
+            # for j in m:
+            list_center.append(m)
+        list_total.append(list_center)
+        inertia_total.append(inertia)
+    return list_total[inertia_total.index(min(inertia_total))], min(inertia_total)
+
+list_1 = [[1,2], [2,4], [3,9], [3,4], [6,0], [7,8], [9,5], [6,2], [9,5]]
+print(kmeans_cluster(list_1, 100, 3))
+
+
+#cycle_number循环次数越多，结果越准确
+#list_1的格式要求比较高，每个数据的个数为维度，gps一般是二维
+#center number: 中心点数
+
+
+
+
